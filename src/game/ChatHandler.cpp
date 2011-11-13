@@ -279,6 +279,10 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket & recv_data)
             if (msg.empty())
                 break;
 
+            if (GetPlayer()->SpamCheckForType(type, lang))
+                if (!GetPlayer()->DoSpamCheck(msg))
+                    return;
+
             // if player is in battleground, he cannot say to battleground members by /p
             Group *group = GetPlayer()->GetOriginalGroup();
             // so if player hasn't OriginalGroup and his player->GetGroup() is BG raid, then return
